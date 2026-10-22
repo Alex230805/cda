@@ -24,7 +24,7 @@ int da_index_of_imp(void* array, uintptr_t *elem, size_t elem_size);
 uintptr_t* da_get_at_imp(void* array, size_t i);
 uintptr_t* da_pop_last_imp(void* array);
 void da_insert_imp(void* array, uintptr_t* elem, size_t len, size_t index);
-uintptr_t* da_pop_at_imp(void* array, size_t index);
+uintptr_t* da_pop_at_imp(void* array, int index);
 void da_destroy_imp(void* array);
 
 #define da_append(array, elem, elem_size)								\
@@ -115,8 +115,9 @@ void da_insert_imp(void* array, uintptr_t* elem, size_t len, size_t index){
 	return;
 }
 
-uintptr_t* da_pop_at_imp(void* array, size_t index){
+uintptr_t* da_pop_at_imp(void* array, int index){
 	assert(array != NULL);
+	if(index < 0) return NULL;
 	if(index >= ((Array_Example*)array)->tracker || ((Array_Example*)array)->size == 0) return NULL;
 	uintptr_t* elem = ((Array_Example*)array)->elem[index];
 	for(size_t i = index; i < ((Array_Example*)array)->tracker; i++){
@@ -149,7 +150,7 @@ void da_destroy_imp(void* array){
 int da_index_of_imp(void* array, uintptr_t *elem, size_t elem_size){
 	assert(array != NULL);
 	if(((Array_Example*)array)->size == 0) return -1;
-	for(size_t i=0;i< ((Array_Example*)array)->tracker; i++){
+	for(size_t i=0;i < ((Array_Example*)array)->tracker; i++){
 		uintptr_t* a_elem = ((Array_Example*)array)->elem[i];
 		if(memcmp((uint8_t*)a_elem, (uint8_t*)elem, elem_size) == 0){
 			return i;
