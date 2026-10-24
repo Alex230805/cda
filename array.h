@@ -21,7 +21,7 @@ typedef struct{
 
 void da_append_imp(void* array,  uintptr_t *elem);
 int da_index_of_imp(void* array, uintptr_t *elem, size_t elem_size);
-uintptr_t* da_get_at_imp(void* array, size_t i);
+uintptr_t* da_get_at_imp(void* array, int i);
 uintptr_t* da_pop_last_imp(void* array);
 void da_insert_imp(void* array, uintptr_t* elem, size_t len, size_t index);
 uintptr_t* da_pop_at_imp(void* array, int index);
@@ -77,8 +77,9 @@ void da_append_imp(void* array, uintptr_t* elem){
 	return;   
 }
 
-uintptr_t* da_get_at_imp(void* array, size_t i){
+uintptr_t* da_get_at_imp(void* array, int i){
 	assert(array != NULL);
+	if(i < 0) return NULL;
 	if(i >= ((Array_Example*)array)->tracker || ((Array_Example*)array)->size == 0) return NULL;
 	return ((Array_Example*)array)->elem[i];
 }
